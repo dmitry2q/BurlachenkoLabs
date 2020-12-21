@@ -1,0 +1,31 @@
+@echo off
+
+
+if defined ProgramFiles(x86) (set oper=x64) else (set oper=x32)
+FOR /F "tokens=1* delims==" %%A IN ('wmic os get caption /Format:List ^| FIND "="') DO set "s=%%~B"
+chcp 1251
+echo OS: %s% %oper%  >> info.txt
+
+
+For /F "tokens=2 Delims==" %%J In ('wmic os get numberofusers /Value^|FindStr .') Do set "us=%%J"
+echo NUMBER OF USERS: %us% >> info.txt
+
+
+For /F "tokens=2 Delims==" %%J In ('WMIC CPU Get Name /Value^|FindStr .') Do set "CPU=%%J"
+echo CPU: %CPU%  >> info.txt
+
+
+FOR /F "tokens=1* delims==" %%A IN ('WMIC CPU Get numberofcores /Format:List ^| FIND "="') DO set "core=%%~B"
+echo CORE: %core% >> info.txt
+
+
+FOR /F "tokens=1* delims==" %%A IN ('WMIC CPU Get currentclockspeed /Format:List ^| FIND "="') DO set "s=%%~B"
+echo FREQUENCY: %s% Mhz >> info.txt
+
+
+FOR /F "tokens=1* delims==" %%A IN ('WMIC os get totalvisiblememorysize /Format:List ^| FIND "="') DO set "su=%%~B"
+set /a sss=%su%/1024
+echo RAM: %sss% %uu% Mb >> info.txt
+
+
+echo CHECK TIME: %DATE% (%TIME%) >> info.txt
